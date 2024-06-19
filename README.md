@@ -10,16 +10,16 @@ Sources:
 
 ## User Setup
 
-
-
 `export SERVICE="myservice"`
 
 `sudo useradd -r -m -d "/var/lib/${SERVICE}" -s /bin/false "${SERVICE}"`
 
-Automatically start on boot:
+Automatically start containers on boot:
+
 `sudo loginctl enable-linger "${SERVICE}"`
 
-For volumes:
+For volumes storage:
+
 `sudo -H -u "${SERVICE}" bash -c "mkdir ~/data"`
 
 For selinux system:
