@@ -1,0 +1,15 @@
+[Install]
+WantedBy=default.target
+
+[Kube]
+# Point to the yaml file in the same directory
+Yaml=ntfy-deploy.yml
+# Use the quadlet-demo network
+Network=pasta
+#ntfy-deploy.network
+# Publish the envoy proxy data port
+PublishPort=80:80
+# Publish the envoy proxy admin port
+PublishPort=443:443
+# Use the envoy proxy config map in the same directory
+ConfigMap=ntfy-config.yml

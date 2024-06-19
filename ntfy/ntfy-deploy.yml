@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ntfy-pv-claim
+  labels:
+    app: ntfy
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ntfy
+spec:
+  containers:
+  - name: ntfy
+    image: docker.io/binwiederhier/ntfy:latest
+    args: ["serve"]
+    env:
+    - name: TZ
+      value: America/Toronto
+    volumeMounts:
+    - name: ntfy-cache
+      mountPath: /var/cache/ntfy
+    - name: ntfy-config
+      mountPath: /etc/ntfy
+  - name: caddy
+    image: docker.io/library/caddy:latest
+    volumeMounts:
+    - name: caddy-config
+      mountPath: /etc/caddy
+  volumes:
+  - name: ntfy-cache
+    persistentVolumeClaim:
+      claimName: ntfy-pv-claim
+  - name: ntfy-config
+    configMap:
+      name: ntfy-config
+  - name: caddy-config
+    configMap:
+      name: caddy-config

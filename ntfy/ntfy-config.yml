@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ntfy-config
+data:
+  server.yml: |
+    # Template: https://github.com/binwiederhier/ntfy/blob/main/server/server.yml
+    base-url: https://ntfy.example.com
+    listen-http: ":8080"
+    cache-startup-queries: |
+       pragma journal_mode = WAL;
+       pragma synchronous = normal;
+       pragma temp_store = memory;
+       pragma busy_timeout = 15000;
+       vacuum;
+    auth-file: user.db
+    auth-default-access: "read-write"
+    behind-proxy: true
+    attachment-cache-dir: /var/cache/ntfy
+    attachment-total-size-limit: "500M"
+    attachment-file-size-limit: "15M"
+    attachment-expiry-duration: "3h"
+    enable-signup: true
+    enable-login: true
+    enable-reservations: true
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: caddy-config
+data:
+  Caddyfile: |
+    https://ntfy.example.com
+      reverse_proxy ntfy-ntfy:8080
+  }
