@@ -14,8 +14,8 @@ data:
        pragma temp_store = memory;
        pragma busy_timeout = 15000;
        vacuum;
-    auth-file: user.db
-    auth-default-access: "read-write"
+    auth-file: /var/lib/ntfy/user.db
+    auth-default-access: "deny-all"
     behind-proxy: true
     attachment-cache-dir: /var/cache/ntfy
     attachment-total-size-limit: "500M"
@@ -31,6 +31,6 @@ metadata:
   name: caddy-config
 data:
   Caddyfile: |
-    https://ntfy.example.com
+    https://ntfy.ovh.example.com {
       reverse_proxy ntfy-ntfy:8080
-  }
+    }
