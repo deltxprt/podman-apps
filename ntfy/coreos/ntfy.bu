@@ -1,0 +1,20 @@
+variant: fcos
+version: 1.5.0
+storage:
+  files:
+    - path: /etc/containers/systemd/ntfy-deploy.kube
+      contents:
+        source: https://raw.githubusercontent.com/deltxprt/podman-apps/main/ntfy/ntfy-deploy.kube
+    - path: /etc/containers/systemd/ntfy-deploy.network
+      contents:
+        source: https://raw.githubusercontent.com/deltxprt/podman-apps/main/ntfy/ntfy-deploy.network
+    - path: /etc/containers/systemd/ntfy-deploy.yml
+      contents:
+        source: https://raw.githubusercontent.com/deltxprt/podman-apps/main/ntfy/ntfy-deploy.yml
+    - path: /etc/containers/systemd/ntfy-config.yml
+      contents:
+        source: https://raw.githubusercontent.com/deltxprt/podman-apps/main/ntfy/ntfy-config.yml
+systemd:
+  units:
+    - name: ntfy-deploy.service
+      enabled: true
