@@ -1,0 +1,11 @@
+variant: fcos
+version: 1.5.0
+storage:
+  files:
+    - path: /etc/containers/systemd/pgadmin.container
+      contents:
+        source: https://raw.githubusercontent.com/deltxprt/podman-apps/main/pgadmin/pgadmin.container
+systemd:
+  units:
+    - name: pgadmin.service
+      enabled: true

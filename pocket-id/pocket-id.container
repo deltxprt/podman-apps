@@ -1,0 +1,12 @@
+[Container]
+EnvironmentFile=.env
+HealthCmd=curl -f http://localhost/health
+HealthInterval=1m30s
+HealthRetries=2
+HealthStartPeriod=10s
+HealthTimeout=5s
+Image=ghcr.io/pocket-id/pocket-id:latest
+Volume=./data:/app/backend/data
+
+[Service]
+Restart=always

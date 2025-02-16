@@ -1,0 +1,9 @@
+# cloudflared.container
+[Container]
+ContainerName=cloudflared01
+Exec=tunnel --no-autoupdate run --token mycftoken
+Image=cloudflare/cloudflared:latest
+Pull=always
+
+[Service]
+Restart=always

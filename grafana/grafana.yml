@@ -1,0 +1,53 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: grafana-pv-claim
+  labels:
+    app: grafana
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+# grafana-kube.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: grafana
+spec:
+  containers:
+  - command:
+    - sh
+    - -euc
+    - |
+      mkdir -p /etc/grafana/provisioning/datasources
+      cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
+      apiVersion: 1
+      deleteDatasources:
+      - name: Loki
+        orgId: 1
+
+      EOF
+      /run.sh
+    image: grafana/grafana:latest
+    name: grafana
+    envFrom:
+      - configMapRef:
+        name: grafana-config
+    volumeMounts:
+      - name: grafana-data
+        mountpoint: /var/lib/grafana
+  - args:
+    - -ntfy-url=https://ntfy.sh/map_lab-notifications
+    image: academo/grafana-ntfy:latest
+    name: grafana-ntfy
+  volumes:
+  - name: grafana-data
+    persistentVolumeClaim:
+      claimName: grafana-pv-claim
+  - name: grafana-config
+    configMap:
+      name: grafana-config
